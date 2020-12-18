@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.exam.manage.asystem.dao.SysAuthorityMapper">
+  <resultMap id="BaseResultMap" type="com.exam.manage.asystem.entity.SysAuthority">
+    <id column="authority_id" jdbcType="VARCHAR" property="authorityId" />
+    <result column="authority_name" jdbcType="VARCHAR" property="authorityName" />
+    <result column="authority_remark" jdbcType="VARCHAR" property="authorityRemark" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="authority_content" jdbcType="VARCHAR" property="authorityContent" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    authority_id, authority_name, authority_remark, create_time, update_time, authority_content
+  </sql>
+
+
+  <select id="findByUserId" parameterType="java.lang.String" resultMap="BaseResultMap">
+
+    SELECT
+      a.authority_id,
+      a.authority_name,
+      a.authority_remark,
+      a.create_time,
+      a.update_time,
+      a.authority_content
+    FROM
+    sys_user_authority b
+        LEFT JOIN  sys_authority a ON a. authority_id=b.authority_id
+        WHERE  b.user_id = #{userId}
+  </select>
+  <select id="findAll" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM sys_authority a
+  </select>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_authority
+    where authority_id = #{authorityId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from sys_authority
+    where authority_id = #{authorityId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.exam.manage.asystem.entity.SysAuthority">
+    insert into sys_authority (authority_id, authority_name, authority_remark, 
+      create_time, update_time, authority_content
+      )
+    values (#{authorityId,jdbcType=VARCHAR}, #{authorityName,jdbcType=VARCHAR}, #{authorityRemark,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{authorityContent,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.exam.manage.asystem.entity.SysAuthority">
+    insert into sys_authority
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="authorityId != null">
+        authority_id,
+      </if>
+      <if test="authorityName != null">
+        authority_name,
+      </if>
+      <if test="authorityRemark != null">
+        authority_remark,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="authorityContent != null">
+        authority_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="authorityId != null">
+        #{authorityId,jdbcType=VARCHAR},
+      </if>
+      <if test="authorityName != null">
+        #{authorityName,jdbcType=VARCHAR},
+      </if>
+      <if test="authorityRemark != null">
+        #{authorityRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="authorityContent != null">
+        #{authorityContent,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.exam.manage.asystem.entity.SysAuthority">
+    update sys_authority
+    <set>
+      <if test="authorityName != null">
+        authority_name = #{authorityName,jdbcType=VARCHAR},
+      </if>
+      <if test="authorityRemark != null">
+        authority_remark = #{authorityRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="authorityContent != null">
+        authority_content = #{authorityContent,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where authority_id = #{authorityId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.exam.manage.asystem.entity.SysAuthority">
+    update sys_authority
+    set authority_name = #{authorityName,jdbcType=VARCHAR},
+      authority_remark = #{authorityRemark,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      authority_content = #{authorityContent,jdbcType=VARCHAR}
+    where authority_id = #{authorityId,jdbcType=VARCHAR}
+  </update>
+</mapper>
